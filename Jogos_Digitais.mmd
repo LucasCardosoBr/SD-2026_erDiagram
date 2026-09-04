@@ -1,0 +1,30 @@
+erDiagram
+
+    CLIENTES ||--|{ CLIENTE_PEDIDO : fazem
+    PEDIDOS ||--|{ CLIENTE_PEDIDO : pertencem
+
+    PEDIDOS ||--|{ ITEM_PEDIDO : contem
+    PRATOS ||--|{ ITEM_PEDIDO : incluidos
+
+
+    CLIENTES {
+        int id_cliente PK
+    }
+
+    PEDIDOS {
+        int id_pedido PK
+    }
+
+    PRATOS {
+        int id_prato PK
+    }
+
+    CLIENTE_PEDIDO {
+        int id_cliente PK, FK
+        int id_pedido PK, FK
+    }
+
+    ITEM_PEDIDO {
+        int id_pedido PK, FK
+        int id_prato PK, FK
+    }
