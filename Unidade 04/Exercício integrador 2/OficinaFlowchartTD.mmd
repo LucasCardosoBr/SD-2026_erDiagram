@@ -1,0 +1,34 @@
+flowchart TD
+    %% Estilos
+    classDef entity fill:#e1f5fe,stroke:#0288d1,stroke-width:1.5px,color:#000;
+    classDef rel fill:#fff3e0,stroke:#f57c00,stroke-width:1.5px,color:#000;
+    classDef assoc fill:#f3e5f5,stroke:#7b1fa2,stroke-width:1.5px,color:#000;
+
+    %% Entidades
+    CLIENTE["CLIENTE"]:::entity
+    VEICULO["VEICULO"]:::entity
+    MECANICO["MECANICO"]:::entity
+    ORDEM_SERVICO["ORDEM_SERVICO"]:::entity
+    SERVICO["SERVICO"]:::entity
+    PECA["PECA"]:::entity
+    PAGAMENTO["PAGAMENTO"]:::entity
+
+    %% Relacionamentos
+    R_POSSUI{"possui"}:::rel
+    R_ABRE{"abre"}:::rel
+    R_RESPONSAVEL{"responsável"}:::rel
+    R_GERA{"gera"}:::rel
+
+    %% Relacionamentos N:M Associativos
+    R_EXECUTA{"executa<br/><i>(ITEM_SERVICO: quantidade)</i>"}:::assoc
+    R_UTILIZA{"utiliza<br/><i>(ITEM_PECA: quantidade)</i>"}:::assoc
+
+    %% Conexões e Cardinalidades
+    CLIENTE ---|1,1| R_POSSUI ---|1,N| VEICULO
+    VEICULO ---|1,1| R_ABRE ---|0,N| ORDEM_SERVICO
+    MECANICO ---|1,1| R_RESPONSAVEL ---|0,N| ORDEM_SERVICO
+    ORDEM_SERVICO ---|1,1| R_GERA ---|0,1| PAGAMENTO
+
+    %% Ligações N:M
+    ORDEM_SERVICO ---|0,N| R_EXECUTA ---|1,N| SERVICO
+    ORDEM_SERVICO ---|0,N| R_UTILIZA ---|0,N| PECA

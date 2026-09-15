@@ -1,0 +1,78 @@
+erDiagram
+    CLIENTE {
+        int id_cliente PK
+        varchar nome
+        varchar cpf
+        varchar telefone
+        varchar email "NULL"
+    }
+
+    VEICULO {
+        varchar placa PK
+        varchar modelo
+        varchar marca
+        int ano
+        varchar cor
+        int id_cliente FK "NOT NULL"
+    }
+
+    MECANICO {
+        int id_mecanico PK
+        varchar nome
+        varchar especialidade
+        decimal salario
+    }
+
+    ORDEM_SERVICO {
+        int id_os PK
+        date data_entrada
+        date data_saida "NULL"
+        varchar descricao_problema
+        varchar status
+        varchar placa FK "NOT NULL"
+        int id_mecanico FK "NOT NULL"
+    }
+
+    SERVICO {
+        int id_servico PK
+        varchar nome
+        decimal preco_base
+        int tempo_estimado
+    }
+
+    ITEM_SERVICO {
+        int id_os PK, FK "NOT NULL"
+        int id_servico PK, FK "NOT NULL"
+        int quantidade "NOT NULL"
+    }
+
+    PECA {
+        int id_peca PK
+        varchar nome
+        decimal preco_unitario
+        int qtd_estoque
+    }
+
+    ITEM_PECA {
+        int id_os PK, FK "NOT NULL"
+        int id_peca PK, FK "NOT NULL"
+        int quantidade "NOT NULL"
+    }
+
+    PAGAMENTO {
+        int id_pagamento PK
+        decimal valor
+        varchar forma_pagamento
+        date data_pagamento
+        int id_os FK "NOT NULL"
+    }
+
+    %% Relacionamentos do Lógico
+    CLIENTE ||--|{ VEICULO : "possui"
+    VEICULO ||--o{ ORDEM_SERVICO : "abre"
+    MECANICO ||--o{ ORDEM_SERVICO : "responsável"
+    ORDEM_SERVICO ||--o| PAGAMENTO : "gera"
+    ORDEM_SERVICO ||--|{ ITEM_SERVICO : "contém"
+    SERVICO ||--|{ ITEM_SERVICO : "é executado em"
+    ORDEM_SERVICO ||--|{ ITEM_PECA : "consome"
+    PECA ||--|{ ITEM_PECA : "é utilizada em"

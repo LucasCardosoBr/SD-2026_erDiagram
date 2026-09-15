@@ -1,0 +1,38 @@
+flowchart TD
+    %% Estilos
+    classDef entity fill:#e1f5fe,stroke:#0288d1,stroke-width:1.5px,color:#000;
+    classDef rel fill:#fff3e0,stroke:#f57c00,stroke-width:1.5px,color:#000;
+    classDef assoc fill:#f3e5f5,stroke:#7b1fa2,stroke-width:1.5px,color:#000;
+
+    %% Entidades
+    FILIAL["FILIAL"]:::entity
+    FUNCIONARIO["FUNCIONARIO"]:::entity
+    CLIENTE["CLIENTE"]:::entity
+    CATEGORIA["CATEGORIA"]:::entity
+    VEICULO["VEICULO"]:::entity
+    LOCACAO["LOCACAO"]:::entity
+    PAGAMENTO["PAGAMENTO"]:::entity
+
+    %% Relacionamentos
+    R_LOTA{"lota"}:::rel
+    R_GERENCIA{"gerencia"}:::rel
+    R_REGISTRA{"registra"}:::rel
+    R_REALIZA{"realiza"}:::rel
+    R_MANTEM{"mantém"}:::rel
+    R_CLASSIFICA{"classifica"}:::rel
+    R_GERA{"gera"}:::rel
+    
+    %% Relacionamento N:M Associativo
+    R_INCLUI{"inclui<br/><i>(ITEM_LOCACAO: valor_diaria)</i>"}:::assoc
+
+    %% Conexões e Cardinalidades
+    FILIAL ---|1,1| R_LOTA ---|1,N| FUNCIONARIO
+    FILIAL ---|0,1| R_GERENCIA ---|1,1| FUNCIONARIO
+    FUNCIONARIO ---|1,1| R_REGISTRA ---|0,N| LOCACAO
+    CLIENTE ---|1,1| R_REALIZA ---|0,N| LOCACAO
+    FILIAL ---|1,1| R_MANTEM ---|1,N| VEICULO
+    CATEGORIA ---|1,1| R_CLASSIFICA ---|1,N| VEICULO
+    LOCACAO ---|1,1| R_GERA ---|1,N| PAGAMENTO
+
+    %% Ligação N:M
+    LOCACAO ---|0,N| R_INCLUI ---|1,N| VEICULO
