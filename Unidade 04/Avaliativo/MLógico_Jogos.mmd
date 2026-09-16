@@ -1,0 +1,59 @@
+erDiagram
+    JOGADOR ||--o{ NPC : controla
+    CLASSE ||--o{ INVENTARIO : define
+    JOGADOR ||--|| INVENTARIO : possui
+    INVENTARIO ||--o{ INVENTARIO_ITEM : possui
+    ITEM ||--o{ INVENTARIO_ITEM : contem
+    CLASSE ||--o{ CLASSE_HABILIDADE : oferece
+    HABILIDADE ||--o{ CLASSE_HABILIDADE : contem
+
+    JOGADOR {
+        int id PK "not null"
+        varchar nome "not null"
+        varchar email "not null"
+        date data_cadastro "not null"
+    }
+
+    CLASSE {
+        int id PK "not null"
+        varchar nome "not null"
+        varchar descricao "null"
+    }
+
+    NPC {
+        int id PK "not null"
+        varchar nome "not null"
+        int saude "not null"
+        int jogador_id FK "null"
+    }
+
+    HABILIDADE {
+        int id PK "not null"
+        varchar nome "not null"
+        int dano "not null"
+    }
+
+    ITEM {
+        int id PK "not null"
+        varchar nome "not null"
+        varchar tipo "not null"
+        decimal valor "not null"
+    }
+
+    INVENTARIO {
+        int id PK "not null"
+        int slot "not null"
+        int quantidade "not null"
+        int jogador_id FK "not null"
+        int classe_id FK "not null"
+    }
+
+    INVENTARIO_ITEM {
+        int inventario_id PK,FK "not null"
+        int item_id PK,FK "not null"
+    }
+
+    CLASSE_HABILIDADE {
+        int classe_id PK,FK "not null"
+        int habilidade_id PK,FK "not null"
+    }
