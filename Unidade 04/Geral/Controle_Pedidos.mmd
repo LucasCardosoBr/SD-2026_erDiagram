@@ -1,0 +1,49 @@
+erDiagram
+
+    INVENTARIOS ||--|{ JOGADORES : possuem
+    JOGADORES ||--|{ JOGADOR_PERSONAGEM : tem
+    PERSONAGENS ||--|{ JOGADOR_PERSONAGEM : pertence
+
+    PERSONAGENS ||--|{ PERSONAGEM_ARMA : usam
+    ARMAS ||--o{ PERSONAGEM_ARMA : utilizada
+
+    JOGADORES ||--|{ MISSAO : participam
+    JOGADORES ||--|{ CONQUISTAS : obtem
+
+
+    INVENTARIOS {
+        int id_inventario PK
+    }
+
+    JOGADORES {
+        int id_jogador PK
+        int id_inventario FK
+    }
+
+    PERSONAGENS {
+        int id_personagem PK
+    }
+
+    ARMAS {
+        int id_arma PK
+    }
+
+    JOGADOR_PERSONAGEM {
+        int id_jogador PK, FK
+        int id_personagem PK, FK
+    }
+
+    PERSONAGEM_ARMA {
+        int id_personagem PK, FK
+        int id_arma PK, FK
+    }
+
+    MISSAO {
+        int id_missao PK
+        int id_jogador FK
+    }
+
+    CONQUISTAS {
+        int id_conquista PK
+        int id_jogador FK
+    }

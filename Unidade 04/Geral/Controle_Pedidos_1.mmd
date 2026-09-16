@@ -1,0 +1,12 @@
+flowchart LR
+    CLIENTES["CLIENTES"] ---|1, N| R1{"Faz"}
+    R1 ---|1, N| PEDIDOS["PEDIDOS"]
+
+    PEDIDOS ---|1, N| R2{"contém"}
+    R2 ---|1, N| PRATOS["PRATOS"]
+
+    CLIENTES:::ent
+    PEDIDOS:::ent
+    PRATOS:::ent
+
+    classDef ent fill:#003049,stroke:#EAE2B7,stroke-width:2px

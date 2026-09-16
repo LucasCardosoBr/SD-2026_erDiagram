@@ -1,0 +1,6 @@
+erDiagram
+    ALUNOS ||--o{ MATRICULAS : faz
+    DISCIPLINAS ||--o{ MATRICULAS : recebe
+    ALUNOS { int matricula PK }
+    MATRICULAS { matricula int PK, FK 
+                codigo int PK,Fk }

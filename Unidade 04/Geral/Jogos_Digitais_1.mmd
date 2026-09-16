@@ -1,0 +1,24 @@
+flowchart LR
+    INVENTARIOS["INVENTARIOS"] ---|1, N| R1{"Possuem"}
+    R1 ---|1, 1| JOGADORES["JOGADORES"]
+
+    JOGADORES ---|1, N| R2{"tem"}
+    R2 ---|1, N| PERSONAGENS["PERSONAGENS"]
+
+    PERSONAGENS ---|1, N| R5{"Usam"}
+    R5 ---|0, N| ARMAS["ARMAS"]
+
+    JOGADORES ---|1, N| R3{"Participam"}
+    R3 ---|1, 1| MISSÂO["MISSÂO"]
+
+    JOGADORES ---|1, 1| R4{"Obtém"}
+    R4 ---|1, N| CONQUISTAS["CONQUISTAS"]
+
+    INVENTARIOS:::ent
+    JOGADORES:::ent
+    PERSONAGENS:::ent
+    CONQUISTAS:::ent
+    MISSÂO:::ent
+    ARMAS:::ent
+
+    classDef ent fill:#003049,stroke:#EAE2B7,stroke-width:2px

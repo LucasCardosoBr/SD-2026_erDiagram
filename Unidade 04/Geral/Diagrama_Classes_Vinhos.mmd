@@ -1,0 +1,68 @@
+flowchart TD
+    %% --- Estilos Gerais ---
+    classDef entidade fill:#003049,stroke:#EAE2B7,stroke-width:2px;
+    classDef relacao fill:#003049,stroke:#EAE2B7,stroke-width:1px;
+
+    %% --- Blocos de Entidades Principais (Maiúsculo e Plural) ---
+    EMPRESAS[EMPRESAS]:::entidade
+    EMPRESAS_PRESTADORAS_SERVICOS[EMPRESAS PRESTADORAS SERVIÇOS]:::entidade
+    EMPRESAS_COMPRADORAS[EMPRESAS COMPRADORAS]:::entidade
+    LOCAIS_PLANTIOS[LOCAIS PLANTIOS]:::entidade
+    TIPOS_VINHOS[TIPOS VINHOS]:::entidade
+    MARCAS_VINHOS[MARCAS VINHOS]:::entidade
+    SAFRAS[SAFRAS]:::entidade
+    VENDAS[VENDAS]:::entidade
+
+    %% --- Triângulo de Generalização/Herança (Sem cardinalidades) ---
+    Gen{É um}:::relacao
+    EMPRESAS --- Gen
+    Gen ---> EMPRESAS_PRESTADORAS_SERVICOS
+    Gen ---> EMPRESAS_COMPRADORAS
+
+    %% --- Relacionamentos Normais ---
+    MARCAS_VINHOS -- "(1,1)" --- R_MarcaSafra{Produz}:::relacao
+    R_MarcaSafra -- "(0,N)" --- SAFRAS
+
+    EMPRESAS_PRESTADORAS_SERVICOS -- "(1,1)" --- R_PrestadoraVenda{Realiza}:::relacao
+    R_PrestadoraVenda -- "(0,N)" --- VENDAS
+
+    EMPRESAS_COMPRADORAS -- "(0,N)" --- R_CompradoraVenda{Efetua}:::relacao
+    R_CompradoraVenda -- "(0,N)" --- VENDAS
+
+    %% --- Entidades Associativas (Losango com Verbo dentro de Retângulo) ---
+    
+    %% 1. Plantação
+    TIPOS_VINHOS -- "(1,N)" --- R_Plantacao
+    LOCAIS_PLANTIOS -- "(0,N)" --- R_Plantacao
+    subgraph Plantacao [PLANTAÇÕES]
+        R_Plantacao{Cultiva}:::relacao
+    end
+
+    %% 2. Gerência Local
+    LOCAIS_PLANTIOS -- "(0,N)" --- R_GerenciaLocal
+    EMPRESAS_PRESTADORAS_SERVICOS -- "(0,N)" --- R_GerenciaLocal
+    subgraph GerenciaLocal [GERÊNCIAS LOCAIS]
+        R_GerenciaLocal{Gerencia}:::relacao
+    end
+
+    %% 3. Cota Safra
+    SAFRAS -- "(0,N)" --- R_CotaSafra
+    EMPRESAS_PRESTADORAS_SERVICOS -- "(0,N)" --- R_CotaSafra
+    subgraph CotaSafra [COTAS SAFRAS]
+        R_CotaSafra{Estipula}:::relacao
+    end
+
+    %% 4. Item Venda
+    SAFRAS -- "(1,N)" --- R_ItemVenda
+    VENDAS -- "(0,N)" --- R_ItemVenda
+    subgraph ItemVenda [ITENS VENDAS]
+        R_ItemVenda{Compõe}:::relacao
+    end
+
+    %% --- Ajustes Visuais dos Subgraphs ---
+    style Plantacao fill:#003049,stroke:#EAE2B7,stroke-width:2px,stroke-dasharray: 0
+    style GerenciaLocal fill:#003049,stroke:#EAE2B7,stroke-width:2px,stroke-dasharray: 0
+    style CotaSafra fill:#003049,stroke:#EAE2B7,stroke-width:2px,stroke-dasharray: 0
+    style ItemVenda fill:#003049,stroke:#EAE2B7,stroke-width:2px,stroke-dasharray: 0
+
+

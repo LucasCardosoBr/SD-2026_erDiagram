@@ -1,0 +1,75 @@
+flowchart TD
+    %% --- Estilos Gerais ---
+    classDef entidade fill:#fff,stroke:#333,stroke-width:2px;
+    classDef relacao fill:#fff,stroke:#333,stroke-width:1px;
+
+    %% --- Blocos de Entidades Principais ---
+    BLOCOS[BLOCOS]:::entidade
+    EDIFICIOS[EDIFÍCIOS]:::entidade
+    APARTAMENTOS[APARTAMENTOS]:::entidade
+    VEICULOS[VEÍCULOS]:::entidade
+    FUNCIONARIOS[FUNCIONÁRIOS]:::entidade
+    PESSOAS[PESSOAS]:::entidade
+    FISICAS[FÍSICAS]:::entidade
+    JURIDICAS[JURÍDICAS]:::entidade
+    VISITANTES[VISITANTES]:::entidade
+    MORADORES[MORADORES]:::entidade
+
+    %% --- Triângulos de Generalização/Herança (Sem cardinalidades) ---
+    GenPessoa{É uma}:::relacao
+    PESSOAS --- GenPessoa
+    GenPessoa ---> FISICAS
+    GenPessoa ---> JURIDICAS
+
+    GenFisica{É uma}:::relacao
+    FISICAS --- GenFisica
+    GenFisica ---> VISITANTES
+    GenFisica ---> MORADORES
+
+    %% --- Relacionamentos Normais ---
+    BLOCOS -- "(0,1)" --- R_BlocoEdificio{Contém}:::relacao
+    R_BlocoEdificio -- "(1,N)" --- EDIFICIOS
+
+    EDIFICIOS -- "(1,1)" --- R_EdificioApto{Possui}:::relacao
+    R_EdificioApto -- "(1,N)" --- APARTAMENTOS
+
+    APARTAMENTOS -- "(1,1)" --- R_AptoVeiculo{Registra}:::relacao
+    R_AptoVeiculo -- "(0,N)" --- VEICULOS
+
+    FUNCIONARIOS -- "(0,N)" --- R_Gestor{Supervisiona}:::relacao
+    R_Gestor -- "(1,1)" --- FUNCIONARIOS
+
+    FUNCIONARIOS -- "(1,1)" --- R_FuncFisica{Vincula}:::relacao
+    R_FuncFisica -- "(0,1)" --- FISICAS
+
+    JURIDICAS -- "(0,1)" --- R_JuridicaMorador{Aluga}:::relacao
+    R_JuridicaMorador -- "(1,1)" --- MORADORES
+
+    FISICAS -- "(0,1)" --- R_FisicaMorador{Reside}:::relacao
+    R_FisicaMorador -- "(0,1)" --- MORADORES
+
+    VISITANTES -- "(0,1)" --- R_VisitanteMorador{Visita}:::relacao
+    R_VisitanteMorador -- "(1,1)" --- MORADORES
+
+    %% --- Entidades Associativas (Losango com Verbo dentro de Retângulo) ---
+    
+    %% 1. Solicitação Serviço
+    FUNCIONARIOS -- "(1,N)" --- R_Solicitacao
+    EDIFICIOS -- "(0,N)" --- R_Solicitacao
+    APARTAMENTOS -- "(0,N)" --- R_Solicitacao
+    MORADORES -- "(0,N)" --- R_Solicitacao
+    subgraph SolicitacaoServico [SOLICITAÇÕES SERVIÇOS]
+        R_Solicitacao{Abre}:::relacao
+    end
+
+    %% 2. Visita
+    APARTAMENTOS -- "(1,N)" --- R_Visita
+    VEICULOS -- "(1,N)" --- R_Visita
+    VISITANTES -- "(0,N)" --- R_Visita
+    subgraph Visita [VISITAS]
+        R_Visita{Realiza}:::relacao
+    end
+
+    %% --- Ajustes Visuais dos Subgraphs ---
+    style SolicitacaoServico fill:#fff,stroke:#333,stroke-width:2px,stroke-dasharray: 0
+    style Visita fill:#fff,stroke:#333,stroke-width:2px,stroke-dasharray: 0
